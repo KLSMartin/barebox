@@ -1,0 +1,17 @@
+#!/bin/sh
+
+[ ! -e /dev/nand0.root.ubi ] && ubiattach /dev/nand0.root
+
+if [ -e /dev/nand0.root.ubi.system ]; then
+	# configure here the android specific stuff
+	global linux.bootargs.sec="selinux=0 enforcing=0"
+fi
+
+mount /dev/nand0.root.ubi.maintenance
+readlink /mnt/nand0.root.ubi.maintenance/boot/zImage zImageLink
+readlink /mnt/nand0.root.ubi.maintenance/boot/oftree oftree
+basename $zImageLink zImage
+global.bootm.image="/mnt/nand0.root.ubi.maintenance/boot/$zImage"
+global.bootm.oftree="/mnt/nand0.root.ubi.maintenance/boot/$oftree"
+
+global.linux.bootargs.dyn.root="root=ubi0:maintenance ubi.mtd=root rootfstype=ubifs rw"

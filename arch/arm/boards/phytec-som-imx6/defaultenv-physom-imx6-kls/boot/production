@@ -1,0 +1,22 @@
+#!/bin/sh
+
+if [ $bootsource = mmc ]; then
+	if [ $bootsource_instance = 0 ]; then
+		# MMCs
+		boot mmc
+	elif [ $bootsource_instance = 1 ]; then
+		# eMMC
+		boot /mnt/mmc3.2
+	fi
+elif [ $bootsource = nand ]; then
+	[ ! -e /dev/nand0.root.ubi ] && ubiattach /dev/nand0.root
+
+	mount /dev/nand0.root.ubi.boot
+	readlink /mnt/nand0.root.ubi.boot/zImage zImageLink
+	readlink /mnt/nand0.root.ubi.boot/oftree oftree
+	basename $zImageLink zImage
+	global.bootm.image="/mnt/nand0.root.ubi.boot/$zImage"
+	global.bootm.oftree="/mnt/nand0.root.ubi.boot/$oftree"
+
+	global.linux.bootargs.dyn.root="root=ubi0:rootfs ubi.mtd=root rootfstype=ubifs rw"
+fi

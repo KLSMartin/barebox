@@ -1,0 +1,67 @@
+// SPDX-License-Identifier: (GPL-2.0-or-later OR MIT)
+/*
+ * Copyright (C) 2019 KLS Martin GmbH & Co KG,
+ * Author: Leif Middelschulte <leif.middelschulte@klsmartin.com>
+ */
+
+/ {
+	aliases {
+			state = &state;
+	};
+
+	state: imx6qdl_kls_boot_state {
+		magic = <0x883b86a8>;
+		compatible = "barebox,state";
+		backend-type = "raw";
+		backend = <&bbstate_backend>;
+		backend-storage-type = "circular";
+		// backend-stridesize = <2112>;
+
+		#address-cells = <1>;
+		#size-cells = <1>;
+		bootstate {
+			#address-cells = <1>;
+			#size-cells = <1>;
+			maintenance {
+				#address-cells = <1>;
+				#size-cells = <1>;
+				remaining_attempts {
+					reg = <0x0 0x4>;
+					type = "uint32";
+					default = <5>;
+				};
+				priority {
+					reg = <0x4 0x4>;
+					type = "uint32";
+					default = <10>;
+				};
+				ok {
+					reg = <0x8 0x4>;
+					type = "uint32";
+				};
+			};
+			production {
+				#address-cells = <1>;
+				#size-cells = <1>;
+				remaining_attempts {
+					reg = <0x10 0x4>;
+					type = "uint32";
+					default = <5>;
+				};
+				priority {
+					reg = <0x14 0x4>;
+					type = "uint32";
+					default = <20>;
+				};
+				ok {
+					reg = <0x18 0x4>;
+					type = "uint32";
+				};
+			};
+			last_chosen {
+				reg = <0x1C 0x4>;
+				type = "uint32";
+			};
+		};
+	};
+};

@@ -1,0 +1,25 @@
+#!/bin/sh
+
+if [ $bootsource = mmc ]; then
+	if [ $bootsource_instance = 0 ]; then
+		# MMCs
+		boot mmc
+	elif [ $bootsource_instance = 1 ]; then
+		# eMMC
+		boot /mnt/mmc3.0
+	fi
+elif [ $bootsource = nand ]; then
+	[ ! -e /dev/nand0.root.ubi ] && ubiattach /dev/nand0.root
+
+	# The script boots the off the first ubi volume.
+	# It uses the kernel and device-tree embedded into the rootfs
+	mount /dev/nand0.root.ubi.maintenance
+	readlink /mnt/nand0.root.ubi.maintenance/boot/zImage zImageLink
+	readlink /mnt/nand0.root.ubi.maintenance/boot/oftree oftree
+	basename $zImageLink zImage
+	global.bootm.image="/mnt/nand0.root.ubi.maintenance/boot/$zImage"
+	global.bootm.oftree="/mnt/nand0.root.ubi.maintenance/boot/$oftree"
+
+	global.linux.bootargs.dyn.root="root=ubi0:maintenance ubi.mtd=root rootfstype=ubifs rw"
+
+fi
