@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: (GPL-2.0-or-later OR MIT)
+/*
+ * Copyright (C) 2021 KLS Martin GmbH & Co KG,
+ * Author: Leif Middelschulte <leif.middelschulte@klsmartin.com>
+ */
+
+&usdhc4 {
+	/delete-node/ partitions;
+	partitions {
+		compatible = "fixed-partitions";
+		#address-cells = <1>;
+		#size-cells = <1>;
+
+		bbstate_backend: state {
+			partuuid = "16367da7-c518-499f-9aad-e1f366692365";
+		};
+
+	};
+};

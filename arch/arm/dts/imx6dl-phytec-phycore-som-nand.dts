@@ -12,7 +12,8 @@
 #include "imx6dl.dtsi"
 #include "imx6qdl-phytec-phycore-som.dtsi"
 #include "imx6qdl-phytec-mira.dtsi"
-#include "imx6qdl-phytec-state.dtsi"
+#include "imx6dl-kls-state-nand.dtsi"
+#include "imx6qdl-kls-state.dtsi"
 
 / {
 	model = "PHYTEC phyCORE-i.MX6 Duallite/SOLO with NAND";

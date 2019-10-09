@@ -270,6 +270,7 @@ static int physom_imx6_probe(struct device_d *dev)
 	} else if (flags & IS_PHYCORE) {
 		defaultenv_append_directory(defaultenv_physom_imx6);
 		defaultenv_append_directory(defaultenv_physom_imx6_phycore);
+		defaultenv_append_directory(defaultenv_physom_imx6_kls);
 	} else if (flags & IS_PHYCORE_UL) {
 		defaultenv_append_directory(defaultenv_physom_imx6ul_phycore);
 	}
