@@ -164,6 +164,7 @@ static int physom_imx6_probe(struct device_d *dev)
 	char *envdev, *default_envdev;
 	const struct board_data *brd = device_get_match_data(dev);
 	unsigned flags = brd->flags;
+	struct device_d *mmc;
 
 	if (flags & IS_PHYFLEX) {
 		ret = of_devices_ensure_probed_by_property("gpio-controller");
@@ -252,6 +253,10 @@ static int physom_imx6_probe(struct device_d *dev)
 						BBU_HANDLER_FLAG_DEFAULT);
 		imx6_bbu_internal_mmcboot_register_handler("mmc3-boot",
 						"mmc3", 0);
+		/* Probe the eMMC to allow GPT partuuid based storage discovery by barebox-state */
+		mmc = get_device_by_name("mmc3");
+		if (mmc)
+			dev_set_param(mmc, "probe", "1");
 	} else if (flags & HAS_MMC1) {
 		imx6_bbu_internal_mmc_register_handler("mmc1",
 						"/dev/mmc1",
