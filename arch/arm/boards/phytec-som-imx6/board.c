@@ -232,7 +232,7 @@ static int physom_imx6_probe(struct device *dev)
 		envdev = "SPI NOR flash";
 		break;
 	default:
-		environment_path = strdup(default_environment_path);
+		environment_path = xstrdup(default_environment_path);
 		envdev = default_envdev;
 		break;
 	}
