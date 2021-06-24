@@ -17,6 +17,11 @@
 		// leave the following properties to autodetection:
 		// `backend-storage-type`
 		// `backend-stridesize`
+		// There seems to be a bug in the MEMGETINFO for mtd devices
+		// refernced via UUID. In that case the stridesize needs to be specified.
+		// Until this is fixed upstream, the stridesize is specified in
+		// arch/arm/dts/imx6q-phytec-phycore-som-emmc.dts
+		// as this only affects the eMMC version.
 
 		#address-cells = <1>;
 		#size-cells = <1>;
