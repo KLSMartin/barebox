@@ -1,10 +1,14 @@
 #!/bin/sh
 
 if [ $bootsource = mmc ]; then
+	# $bootsource_instance = 0 -> mmc
+	# $bootsource_instance = 1 -> user
+	# $bootsource_instance = 2 -> boot0
+	# $bootsource_instance = 3 -> boot1
 	if [ $bootsource_instance = 0 ]; then
 		# MMCs
 		boot mmc
-	elif [ $bootsource_instance = 1 ]; then
+	else
 		# eMMC
 		boot /mnt/mmc3.0
 	fi

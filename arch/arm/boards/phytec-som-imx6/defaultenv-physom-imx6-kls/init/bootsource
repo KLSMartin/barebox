@@ -8,7 +8,7 @@ if [ $bootsource = mmc ]; then
 	if [ $bootsource_instance = 0 ]; then
 		# MMC
 		global.boot.default="mmc nand spi net"
-	elif [ $bootsource_instance = 1 ]; then
+	else
 		# eMMC
 		global.boot.default="bootchooser emmc nand spi net"
 	fi
