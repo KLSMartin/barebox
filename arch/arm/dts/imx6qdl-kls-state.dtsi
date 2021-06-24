@@ -10,12 +10,13 @@
 	};
 
 	state: imx6qdl_kls_boot_state {
-		magic = <0x883b86a8>;
+		magic = <0x883b86a9>;
 		compatible = "barebox,state";
 		backend-type = "raw";
 		backend = <&bbstate_backend>;
-		backend-storage-type = "circular";
-		// backend-stridesize = <2112>;
+		// leave the following properties to autodetection:
+		// `backend-storage-type`
+		// `backend-stridesize`
 
 		#address-cells = <1>;
 		#size-cells = <1>;
