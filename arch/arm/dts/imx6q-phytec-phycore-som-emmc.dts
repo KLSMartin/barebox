@@ -51,3 +51,7 @@
 &usdhc4 {
 	status = "okay";
 };
+
+&state { 
+	backend-stridesize = <512>;
+};
