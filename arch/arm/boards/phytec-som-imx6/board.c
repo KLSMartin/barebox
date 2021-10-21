@@ -45,6 +45,9 @@
 #define DA9062_BUCK4_CFG		0x9f
 #define DA9062_BUCKx_MODE_SYNCHRONOUS	(2 << 6)
 
+#define PHY_ID_ADIN1300			0x0283bc30
+#define ADIN_PHY_ID_MASK		0x0fffffff
+
 static void phyflex_err006282_workaround(void)
 {
 	/*
@@ -95,6 +98,19 @@ static int ksz8081_phy_fixup(struct phy_device *phydev)
 	 * This should be default but after reset we occasionally read 0x0001
 	 */
 	phy_write(phydev, 0x16, 0x2);
+
+	return 0;
+}
+
+static int adin1300_phy_fixup(struct phy_device *phydev)
+{
+	/*
+	 * Enable 125 MHz PHY clock at GP_CLK pin to the ENET_REF_CLK pin
+	 * of the i.MX 6
+	 */
+
+	phy_write(phydev, 0x10, 0xff1f);
+	phy_write(phydev, 0x11, 0x28);
 
 	return 0;
 }
@@ -181,6 +197,9 @@ static int physom_imx6_probe(struct device_d *dev)
 		default_environment_path = "/chosen/environment-spinor";
 		default_envdev = "SPI NOR flash";
 
+		phy_register_fixup_for_uid(PHY_ID_ADIN1300, ADIN_PHY_ID_MASK,
+				adin1300_phy_fixup);
+
 		imx6_bbu_internal_mmc_register_handler("mmc2",
 						"/dev/mmc2", 0);
 
@@ -188,6 +207,9 @@ static int physom_imx6_probe(struct device_d *dev)
 		barebox_set_hostname("phyCARD-i.MX6");
 		default_environment_path = "/chosen/environment-nand";
 		default_envdev = "NAND flash";
+
+		phy_register_fixup_for_uid(PHY_ID_ADIN1300, ADIN_PHY_ID_MASK,
+				adin1300_phy_fixup);
 
 		imx6_bbu_internal_mmc_register_handler("mmc2",
 						"/dev/mmc2", 0);
@@ -198,6 +220,9 @@ static int physom_imx6_probe(struct device_d *dev)
 		barebox_set_hostname("phyCORE-i.MX6");
 		default_environment_path = "/chosen/environment-spinor";
 		default_envdev = "SPI NOR flash";
+
+		phy_register_fixup_for_uid(PHY_ID_ADIN1300, ADIN_PHY_ID_MASK,
+				adin1300_phy_fixup);
 
 		imx6_bbu_internal_mmc_register_handler("mmc0",
 						"/dev/mmc0", 0);
