@@ -109,8 +109,12 @@ static int adin1300_phy_fixup(struct phy_device *phydev)
 	 * of the i.MX 6
 	 */
 
+	phy_write(phydev, 0x1c, 0x2109);
+	phy_write(phydev, 0x1b, 0x401);
 	phy_write(phydev, 0x10, 0xff1f);
 	phy_write(phydev, 0x11, 0x28);
+	phy_write(phydev, 0x10, 0xff3c);
+	phy_write(phydev, 0x11, 0x1);
 
 	return 0;
 }
