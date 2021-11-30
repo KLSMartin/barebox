@@ -7,4 +7,4 @@ fi
 
 global.bootm.image="/mnt/mmc/zImage"
 global.bootm.oftree="/mnt/mmc/oftree"
-global.linux.bootargs.dyn.root="root=/dev/mmcblk0p2 rootwait rw"
+global.linux.bootargs.dyn.root="root=/dev/mmcblk0p2 rootwait rw rauc.external"
