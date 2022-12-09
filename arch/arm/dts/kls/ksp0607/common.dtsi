@@ -19,6 +19,11 @@
 / {
 	chosen {
 		stdout-path = &uart2;
+		linux,stdout-path = &uart2;
+		/delete-node/ environment-sd1;
+		/delete-node/ environment-sd4;
+		/delete-node/ environment-spinor;
+		/delete-node/ environment-nand;
 	};
 
 	backlight: backlight {
@@ -383,4 +388,8 @@
 		gpios = <&gpio6 5 GPIO_ACTIVE_HIGH>;
 		default-state = "off";
 	};
+};
+
+&reg_pu {
+	regulator-enable-ramp-delay = <380>;
 };
