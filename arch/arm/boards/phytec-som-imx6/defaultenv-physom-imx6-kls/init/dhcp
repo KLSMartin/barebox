@@ -1,0 +1,11 @@
+#!/bin/sh
+# Initialize client side information send with the DHCP request to the server
+# Uniquely identify this SOM
+global dhcp.client_id=$eth0.ethaddr
+global dhcp.client_uuid=$global.machine_id
+
+# Identify as bootloader to receive additional parameters
+global dhcp.vendor_id="barebox"
+
+# Identify a barebox build - i.e. eMMC or NAND
+global dhcp.user_class=$nv.kls.variant
