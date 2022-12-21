@@ -10,6 +10,10 @@
 # Network/DHCP must be up
 ifup eth0
 # TODO usb, ifup -a
+if test $? -ne 0; then
+    usb
+    ifup eth1
+fi
 
 # Note: /mnt/nfs is mounted by barebox automount
 global.bootm.image=$global.dhcp.bootfile
