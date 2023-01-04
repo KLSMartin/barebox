@@ -12,8 +12,6 @@
 #include "imx6q.dtsi"
 #include "imx6qdl-phytec-phycore-som.dtsi"
 #include "imx6qdl-phytec-mira.dtsi"
-#include "imx6q-kls-state-emmc.dtsi"
-#include "imx6qdl-kls-state.dtsi"
 
 / {
 	model = "PHYTEC phyCORE-i.MX6 Quad with eMMC";
@@ -50,8 +48,4 @@
 
 &usdhc4 {
 	status = "okay";
-};
-
-&state { 
-	backend-stridesize = <512>;
 };

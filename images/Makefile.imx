@@ -292,9 +292,13 @@ $(call build_imx_habv4img, CONFIG_MACH_PHYTEC_SOM_IMX6, start_phytec_phycore_imx
 
 $(call build_imx_habv4img, CONFIG_MACH_PHYTEC_SOM_IMX6, start_phytec_phycore_imx6q_som_emmc_1gib, phytec-som-imx6/flash-header-phytec-pcm058-1gib, phytec-phycore-imx6q-som-emmc-1gib)
 
+$(call build_imx_habv4img, CONFIG_MACH_PHYTEC_SOM_IMX6, start_kls_phytec_quad, phytec-som-imx6/flash-header-phytec-pcm058-1gib, kls-phytec-quad)
+
 $(call build_imx_habv4img, CONFIG_MACH_PHYTEC_SOM_IMX6, start_phytec_phycore_imx6q_som_emmc_2gib, phytec-som-imx6/flash-header-phytec-pcm058-2gib, phytec-phycore-imx6q-som-emmc-2gib)
 
 $(call build_imx_habv4img, CONFIG_MACH_PHYTEC_SOM_IMX6, start_phytec_phycore_imx6dl_som_nand_256mb, phytec-som-imx6/flash-header-phytec-pcm058dl-256mb, phytec-phycore-imx6dl-som-nand-256mb)
+
+$(call build_imx_habv4img, CONFIG_MACH_PHYTEC_SOM_IMX6, start_kls_phytec_solo, phytec-som-imx6/flash-header-phytec-pcm058dl-256mb, kls-phytec-solo)
 
 $(call build_imx_habv4img, CONFIG_MACH_PHYTEC_SOM_IMX6, start_phytec_phycore_imx6dl_som_nand_1gib, phytec-som-imx6/flash-header-phytec-pcm058dl-1gib-32bit, phytec-phycore-imx6dl-som-nand-1gib)
 

@@ -1,0 +1,18 @@
+&usdhc4 {
+	status = "okay";
+	/delete-node/ partitions;
+
+	partitions {
+		compatible = "fixed-partitions";
+		#address-cells = <1>;
+		#size-cells = <1>;
+		bbstate_backend: state {
+			partuuid = "16367da7-c518-499f-9aad-e1f366692365";
+			label = "bbstate";
+		};
+	};
+};
+
+&state { 
+	backend-stridesize = <512>;
+};

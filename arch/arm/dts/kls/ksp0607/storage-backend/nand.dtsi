@@ -1,10 +1,11 @@
-// SPDX-License-Identifier: (GPL-2.0-or-later OR MIT)
-/*
- * Copyright (C) 2021 KLS Martin GmbH & Co KG,
- * Author: Leif Middelschulte <leif.middelschulte@klsmartin.com>
- */
-
 &gpmi {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_gpmi_nand>;
+	nand-on-flash-bbt;
+	status = "okay";
+	#address-cells = <1>;
+	#size-cells = <1>;
+
 	/delete-node/ partitions;
 	partitions {
 		compatible = "fixed-partitions";
@@ -16,7 +17,7 @@
 			reg = <0x0 0x400000>;
 		};
 
-		partition@600000 {
+		partition@400000 {
 			label = "barebox-environment";
 			reg = <0x400000 0x100000>;
 		};
@@ -26,7 +27,7 @@
 			reg = <0x500000 0x100000>;
 		};
 
-		partition@e00000 {
+		partition@600000 {
 			label = "root";
 			reg = <0x600000 0x0>;
 		};
