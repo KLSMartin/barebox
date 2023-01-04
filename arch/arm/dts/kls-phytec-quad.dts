@@ -1,0 +1,22 @@
+/*
+ * Copyright (C) 2019 KLS Martin GmbH & Co. KG
+ * Author: Leif Middelschulte <leif.middelschulte@klsmartin.com>
+ *
+ * The code contained herein is licensed under the GNU General Public
+ * License. You may obtain a copy of the GNU General Public License
+ * Version 2 or later at the following locations:
+ *
+ * http://www.opensource.org/licenses/gpl-license.html
+ * http://www.gnu.org/copyleft/gpl.html
+ */
+
+
+/dts-v1/;
+#include "kls/ksp0607/processor/quad.dtsi"
+#include "kls/ksp0607/common.dtsi" // CAUTION: This file must be included *before* specifying the storage backend (i.e. nand/emmc), because it transitivitly disables all storage backends.
+#include "kls/ksp0607/storage-backend/emmc.dtsi"
+
+/{
+    /delete-node/ regulator-lcd_3v3;
+    /delete-node/ backlight;
+};

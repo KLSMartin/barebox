@@ -1,0 +1,386 @@
+/*
+ * Copyright (C) 2016 PHYTEC Messtechnik
+ * Author: Alexander Bauer <a.bauer@phytec.de>
+ *
+ * The code contained herein is licensed under the GNU General Public
+ * License. You may obtain a copy of the GNU General Public License
+ * Version 2 or later at the following locations:
+ *
+ * http://www.opensource.org/licenses/gpl-license.html
+ * http://www.gnu.org/copyleft/gpl.html
+ */
+
+
+#include <dt-bindings/sound/fsl-imx-audmux.h>
+#include <arm/imx6qdl-phytec-phycore-som.dtsi>
+#include "state.dtsi"
+#include <dt-bindings/gpio/gpio.h>
+
+/ {
+	chosen {
+		stdout-path = &uart2;
+	};
+
+	backlight: backlight {
+		compatible = "pwm-backlight";
+		power-supply = <&lcd_3v3>;
+		pwms = <&pwm1 0 5000000>;
+		status = "okay";
+		default-brightness-level = <102>;
+		brightness-levels = <0 12 14 15 16 17 19 21 22 24 26 28 29 30 33 34 35 36 39 40 41 43 44 46 47 49 50 52 53 54 56 58 60 61 62 64 65 67 69 70 72 73 75 77 78 79 81 83 84 85 87 88 90 91 93 94 96 98 99 100 102 104 105 106 108 109 111 112 114 115 117 119 120 122 123 125 126 128 129 131 132 134 134 135 136 136 136 137 137 137 137 138 138 138 138 138 138 138 138 138 138 138 255>;
+	};
+
+	reg_txs01: regulator-reg_txs0 {
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_txs01>;
+		compatible = "regulator-fixed";
+		regulator-name = "txs01";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		gpio = <&gpio5 23 0>;
+		enable-active-high;
+		regulator-always-on;
+	};
+
+	reg_usb_h1_vbus: regulator-reg_usb_h1_vbus {
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_usbh1_vbus>;
+		compatible = "regulator-fixed";
+		regulator-name = "usb_h1_vbus";
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+		gpio = <&gpio1 0 0>;
+		enable-active-high;
+		regulator-always-on;
+	};
+
+	reg_usbotg_vbus: regulator-reg_usbotg_vbus {
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_usbotg_vbus>;
+		compatible = "regulator-fixed";
+		regulator-name = "usb_otg_vbus";
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+		gpio = <&gpio4 15 0>;
+		enable-active-high;
+		regulator-always-on;
+	};
+
+	vcc1v8: regulator-vcc1v8 {
+		compatible = "regulator-fixed";
+		regulator-name = "i2s-audio-1v8";
+		regulator-min-microvolt = <1800000>;
+		regulator-max-microvolt = <1800000>;
+	};
+
+	vcc3v3: regulator-vcc3v3 {
+		compatible = "regulator-fixed";
+		regulator-name = "i2s-audio-3v3";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+	};
+
+	lcd_3v3: regulator-lcd_3v3 {
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_backlight_en>;
+		compatible = "regulator-fixed";
+		regulator-name = "lcd_3v3";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		/delete-property/ enable-active-high;
+		regulator-always-on;
+	};
+
+	lcd_reset: regulator-lcd_reset {
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_display_reset>;
+		compatible = "regulator-fixed";
+		regulator-name = "lcd_reset";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		enable-active-high;
+		regulator-always-on;
+	};
+
+	lcd_vin: regulator-lcd_vin {
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_display_vin>;
+		compatible = "regulator-fixed";
+		gpio = <&gpio5 22 0>;
+		regulator-name = "lcd_vin";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		enable-active-high;
+		regulator-always-on;
+	};
+
+	tlv320_mclk: oscillator {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <19200000>;
+		clock-output-names = "tlv320-mclk";
+	};
+
+	sound {
+		compatible = "simple-audio-card";
+		simple-audio-card,name = "OnboardTLV320AIC3007";
+		simple-audio-card,format = "i2s";
+		simple-audio-card,bitclock-master = <&dailink_master>;
+		simple-audio-card,frame-master = <&dailink_master>;
+		simple-audio-card,widgets =
+			"Speaker", "Speaker";
+		simple-audio-card,routing =
+			"Speaker", "SPOP",
+			"Speaker", "SPOM";
+
+		simple-audio-card,cpu {
+			sound-dai = <&ssi1>;
+		};
+
+		dailink_master: simple-audio-card,codec {
+			sound-dai = <&codec>;
+			clocks = <&tlv320_mclk>;
+		};
+	};
+};
+
+&iomuxc {
+
+	pinctrl-names = "default";
+
+	pinctrl-0 = <&pinctrl_ios>;
+
+	pinctrl_usdhc1: usdhc1grp {
+		fsl,pins = <
+			MX6QDL_PAD_SD1_CMD__SD1_CMD             0x170f9
+			MX6QDL_PAD_SD1_CLK__SD1_CLK             0x100f9
+			MX6QDL_PAD_SD1_DAT0__SD1_DATA0          0x170f9
+			MX6QDL_PAD_SD1_DAT1__SD1_DATA1          0x170f9
+			MX6QDL_PAD_SD1_DAT2__SD1_DATA2          0x170f9
+			MX6QDL_PAD_SD1_DAT3__SD1_DATA3          0x170f9
+			MX6QDL_PAD_EIM_BCLK__GPIO6_IO31         0x80000000
+		>;
+	};
+	pinctrl_uart2: uart2grp {
+		fsl,pins = <
+			MX6QDL_PAD_EIM_D26__UART2_TX_DATA	0x1b0b1
+			MX6QDL_PAD_EIM_D27__UART2_RX_DATA	0x1b0b1
+		>;
+	};
+
+	pinctrl_usbh1: usbh1grp {
+		fsl,pins = <
+			MX6QDL_PAD_GPIO_3__USB_H1_OC		0x80000000
+		>;
+	};
+
+	pinctrl_usbh1_vbus: usbh1-vbusgrp {
+		fsl,pins = <
+			MX6QDL_PAD_GPIO_0__GPIO1_IO00		0x80000000
+		>;
+	};
+	pinctrl_usbotg: usbotggrp {
+		fsl,pins = <
+			MX6QDL_PAD_KEY_COL4__USB_OTG_OC		0x1b0b0
+		>;
+	};
+
+	pinctrl_txs01: txs01grp {
+		fsl,pins = <
+			MX6QDL_PAD_CSI0_DAT5__GPIO5_IO23	0x80000000
+		>;
+	};
+
+	pinctrl_usbotg_vbus: usbotg-vbusgrp {
+		fsl,pins = <
+			MX6QDL_PAD_KEY_ROW4__GPIO4_IO15		0x80000000
+		>;
+	};
+
+	pinctrl_i2c1: i2c1grp {
+		fsl,pins = <
+			MX6QDL_PAD_EIM_D21__I2C1_SCL		0x4001b8b1
+			MX6QDL_PAD_EIM_D28__I2C1_SDA		0x4001b8b1
+		>;
+	};
+
+	pinctrl_i2c2: i2c2grp {
+		fsl,pins = <
+			MX6QDL_PAD_KEY_ROW3__I2C2_SDA		0x4001b8b1
+			MX6QDL_PAD_KEY_COL3__I2C2_SCL		0x4001b8b1
+		>;
+	};
+
+	pinctrl_pwm1: pwm1grp {
+		fsl,pins = <MX6QDL_PAD_GPIO_9__PWM1_OUT		0x1b0b1>;
+	};
+
+	pinctrl_display_vin: displayvin1grp {
+		fsl,pins = <MX6QDL_PAD_CSI0_DAT4__GPIO5_IO22	0x80000000>;
+	};
+
+	pinctrl_display_reset: displayreset1grp {
+		fsl,pins = <MX6QDL_PAD_DI0_PIN4__GPIO4_IO20	0x80000000>;
+	};
+
+	pinctrl_audmux: audmuxgrp {
+		fsl,pins = <
+			MX6QDL_PAD_KEY_COL0__AUD5_TXC           0x130b0
+			MX6QDL_PAD_KEY_ROW0__AUD5_TXD           0x110b0
+			MX6QDL_PAD_KEY_COL1__AUD5_TXFS          0x130b0
+			MX6QDL_PAD_KEY_ROW1__AUD5_RXD           0x110b0
+		>;
+	};
+
+	pinctrl_ios: iogrp {
+		fsl,pins = <
+			MX6QDL_PAD_CSI0_DAT6__GPIO5_IO24	0x80000000
+			MX6QDL_PAD_CSI0_DAT7__GPIO5_IO25	0x80000000
+		>;
+	};
+
+	pinctrl_uart4: uart4grp {
+		fsl,pins = <
+			MX6QDL_PAD_CSI0_DAT13__UART4_RX_DATA	0x1b0b1
+			MX6QDL_PAD_CSI0_DAT12__UART4_TX_DATA	0x1b0b1
+		>;
+	};
+};
+
+&usdhc1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_usdhc1>;
+	cd-gpios = <&gpio6 31 GPIO_ACTIVE_LOW>;
+	no-1-8-v;
+	status = "okay";
+};
+
+&uart2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_uart2>;
+	status = "okay";
+};
+
+&uart4 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_uart4>;
+	status = "okay";
+};
+
+&usbh1 {
+	vbus-supply = <&reg_usb_h1_vbus>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_usbh1>;
+	maximum-speed = "full-speed";
+	status = "okay";
+};
+
+&usbotg {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_usbotg>;
+	vbus-supply = <&reg_usbotg_vbus>;
+		dr_mode = "host";
+	status = "okay";
+};
+
+&i2c1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_i2c1>;
+	clock-frequency = <400000>;
+	status = "okay";
+
+	codec: tlv320aic3007@18 {
+		compatible = "ti,tlv320aic3007";
+		#sound-dai-cells = <0>;
+		reg = <0x18>;
+		ai3x-micbias-vg = <2>;
+
+		AVDD-supply = <&vcc3v3>;
+		IOVDD-supply = <&vcc3v3>;
+		DRVDD-supply = <&vcc3v3>;
+		DVDD-supply = <&vcc1v8>;
+		status = "okay";
+	};
+};
+
+&pwm1 {
+	#pwm-cells = <2>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_pwm1>;
+	status = "okay";
+};
+
+&audmux {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_audmux>;
+	status = "okay";
+
+	/* hardwired to ssi1 */
+	audmux_port1 {
+		fsl,audmux-port = <MX51_AUDMUX_PORT1_SSI0>;
+		fsl,port-config = <
+			(IMX_AUDMUX_V2_PTCR_SYN |
+			IMX_AUDMUX_V2_PTCR_TFSDIR |
+			IMX_AUDMUX_V2_PTCR_TFSEL(MX51_AUDMUX_PORT5) |
+			IMX_AUDMUX_V2_PTCR_TCLKDIR |
+			IMX_AUDMUX_V2_PTCR_TCSEL(MX51_AUDMUX_PORT5))
+			IMX_AUDMUX_V2_PDCR_RXDSEL(MX51_AUDMUX_PORT5)
+		>;
+	};
+
+	/* connected to tlv320 codec */
+	audmux_port5 {
+		fsl,audmux-port = <MX51_AUDMUX_PORT5>;
+		fsl,port-config = <
+			IMX_AUDMUX_V2_PTCR_SYN
+			IMX_AUDMUX_V2_PDCR_RXDSEL(MX51_AUDMUX_PORT1_SSI0)
+		>;
+	};
+ };
+
+&ssi1 {
+	status = "okay";
+};
+
+&fec {
+	status = "okay";
+};
+
+&pinctrl_gpioleds_som {
+	fsl,pins = <
+		MX6QDL_PAD_GPIO_4__GPIO1_IO04		0x1b0b0
+		MX6QDL_PAD_CSI0_DAT16__GPIO6_IO02		0x1b0b0
+		MX6QDL_PAD_CSI0_DAT17__GPIO6_IO03		0x1b0b0
+		MX6QDL_PAD_CSI0_DAT18__GPIO6_IO04		0x1b0b0
+		MX6QDL_PAD_CSI0_DAT19__GPIO6_IO05		0x1b0b0
+	>;
+};
+
+&gpio_leds_som {
+	/delete-node/ som-led-green;
+	controllerboard-heartbeat {
+		label = "heartbeat";
+		gpios = <&gpio1 4 GPIO_ACTIVE_HIGH>;
+		linux,default-trigger = "heartbeat";
+	};
+	green1 {
+		label = "green1";
+		gpios = <&gpio6 2 GPIO_ACTIVE_HIGH>;
+		default-state = "off";
+	};
+	green2 {
+		label = "green2";
+		gpios = <&gpio6 3 GPIO_ACTIVE_HIGH>;
+		default-state = "off";
+	};
+	red1 {
+		label = "red1";
+		gpios = <&gpio6 4 GPIO_ACTIVE_HIGH>;
+		default-state = "off";
+	};
+	red2 {
+		label = "red2";
+		gpios = <&gpio6 5 GPIO_ACTIVE_HIGH>;
+		default-state = "off";
+	};
+};

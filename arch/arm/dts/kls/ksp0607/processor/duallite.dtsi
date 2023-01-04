@@ -1,0 +1,6 @@
+#include <arm/imx6dl.dtsi>
+
+/ {
+	model = "Phytec phyCORE-i.MX 6 DualLite/Solo low cost Carrier-Board with NAND";
+	compatible = "phytec,imx6dl-pcm058-nand", "fsl,imx6dl";
+};
