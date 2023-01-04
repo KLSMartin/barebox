@@ -7,6 +7,10 @@
 # global.dhcp.tftp_server_name
 # global.hostname
 
+# need more time, increasing boot timeout does not work
+wdog0.autoping=1
+wdog0.timeout_cur=45
+
 # Network/DHCP must be up
 ifup eth0
 # TODO usb, ifup -a
@@ -30,3 +34,5 @@ global.linux.bootargs.dyn.ip="ip=dhcp"
 # Override default options for internal boot, TODO correct settings
 # noati
 global.linux.bootargs.rootfs=""
+
+wdog0.autoping=0
