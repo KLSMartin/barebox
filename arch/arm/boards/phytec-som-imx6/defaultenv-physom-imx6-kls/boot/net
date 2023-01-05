@@ -26,7 +26,7 @@ global.bootm.oftree=$global.dhcp.oftree_file
 # root=/dev/nfs tells the kernel to use NFS as root file system, requires further parameter "nfsroot"
 # nfsroot=<path> path to the root file system in NFS notation [server]:[path_on_server]
 # v3,tcp NFS protocol and transport to use
-global.linux.bootargs.dyn.root="root=/dev/nfs nfsroot=${global.dhcp.rootpath},v3,tcp"
+global.linux.bootargs.dyn.root="root=/dev/nfs nfsroot=${global.dhcp.rootpath},v3,tcp carrier_timeout=20"
 
 # Tell kernel to use DHCP
 global.linux.bootargs.dyn.ip="ip=dhcp"
