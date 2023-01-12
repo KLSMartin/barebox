@@ -68,24 +68,6 @@
 				reg = <0x1C 0x4>;
 				type = "uint32";
 			};
-			net {
-				#address-cells = <1>;
-				#size-cells = <1>;
-				remaining_attempts {
-					reg = <0x20 0x4>;
-					type = "uint32";
-					default = <0>;
-				};
-				priority {
-					reg = <0x24 0x4>;
-					type = "uint32";
-					default = <0>;
-				};
-				ok {
-					reg = <0x28 0x4>;
-					type = "uint32";
-				};
-			};
 		};
 	};
 };
