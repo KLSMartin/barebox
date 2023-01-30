@@ -8,4 +8,4 @@ global dhcp.client_uuid=$global.machine_id
 global dhcp.vendor_id="barebox"
 
 # Identify a barebox build - i.e. eMMC or NAND
-global dhcp.user_class=$nv.kls.variant
+global dhcp.user_class="$global.model"
