@@ -771,6 +771,8 @@ config MACH_TQMA93XX
 
 endif
 
+source "arch/arm/boards/phytec-som-imx6/Kconfig"
+
 endmenu
 
 # ----------------------------------------------------------

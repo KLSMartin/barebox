@@ -130,6 +130,7 @@ CONFIG_MACH_PHYTEC_SOM_IMX6=y
 #
 # Board specific settings
 #
+CONFIG_PHYTEC_SOM_IMX6_DEFAULT_NETBOOT_ALWAYS=y
 # end of Board specific settings
 
 #
