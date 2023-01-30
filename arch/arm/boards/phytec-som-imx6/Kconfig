@@ -1,0 +1,12 @@
+# SPDX-License-Identifier: GPL-2.0-only
+
+if MACH_PHYTEC_SOM_IMX6
+
+config PHYTEC_SOM_IMX6_DEFAULT_NETBOOT_ALWAYS
+	bool
+	prompt "Always boot from net source"
+	help
+	  Say Y if other bootsources should be disabled when
+	  using the default env and autobooting.
+
+endif

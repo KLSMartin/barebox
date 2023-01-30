@@ -305,6 +305,9 @@ static int physom_imx6_probe(struct device_d *dev)
 		defaultenv_append_directory(defaultenv_physom_imx6);
 		defaultenv_append_directory(defaultenv_physom_imx6_phycore);
 		defaultenv_append_directory(defaultenv_physom_imx6_kls);
+		if (IS_ENABLED(PHYTEC_SOM_IMX6_DEFAULT_NETBOOT_ALWAYS)) {
+			defaultenv_append_directory(defaultenv_physom_imx6_kls_netboot);
+		}
 	} else if (flags & IS_PHYCORE_UL) {
 		defaultenv_append_directory(defaultenv_physom_imx6ul_phycore);
 	}

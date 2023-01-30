@@ -877,6 +877,8 @@ endchoice
 
 endif
 
+source "arch/arm/boards/phytec-som-imx6/Kconfig"
+
 endmenu
 
 menu "i.MX specific settings"
