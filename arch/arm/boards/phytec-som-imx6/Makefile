@@ -6,3 +6,4 @@ bbenv-y += defaultenv-physom-imx6
 bbenv-y += defaultenv-physom-imx6-phycore
 bbenv-y += defaultenv-physom-imx6ul-phycore
 bbenv-y += defaultenv-physom-imx6-kls
+bbenv-y += defaultenv-physom-imx6-kls-netboot
