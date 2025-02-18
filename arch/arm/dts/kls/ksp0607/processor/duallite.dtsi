@@ -1,4 +1,4 @@
-#include <arm/imx6dl.dtsi>
+#include <arm/nxp/imx/imx6dl.dtsi>
 
 / {
 	model = "Phytec phyCORE-i.MX 6 DualLite/Solo low cost Carrier-Board with NAND";

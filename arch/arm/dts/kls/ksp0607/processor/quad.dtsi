@@ -1,4 +1,4 @@
-#include <arm/imx6q.dtsi>
+#include <arm/nxp/imx/imx6q.dtsi>
 
 / {
 	model = "Phytec phyCORE-i.MX6 Quad with eMMC";

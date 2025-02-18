@@ -12,7 +12,7 @@
 
 
 #include <dt-bindings/sound/fsl-imx-audmux.h>
-#include <arm/imx6qdl-phytec-phycore-som.dtsi>
+#include <arm/nxp/imx/imx6qdl-phytec-phycore-som.dtsi>
 #include "state.dtsi"
 #include <dt-bindings/gpio/gpio.h>
 
